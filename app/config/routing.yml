@@ -1,0 +1,6 @@
+intex_org:
+    resource: "@GrtResourceBundle/Resource/config/routing.yml"
+    prefix:    /{_locale}
+    requirements:
+        _locale:  %available_langs%
+

@@ -1,0 +1,78 @@
+intex_org_homepage:
+    path: /
+    defaults: { _controller: GrtResourceBundle:Page:index, _locale: %locale% }
+    requirements:
+        methods:  GET
+
+intex_org_user_show:
+    path: /user/{userId}
+    defaults: { _controller: GrtResourceBundle:User:showUser, _locale: %locale%}
+    requirements:
+        methods:  GET
+        userId:   \d+
+
+intex_org_users:
+    path: /users/{page}/{field}/{order}
+    defaults: { _controller: GrtResourceBundle:User:listUsers, _locale: %locale%, page: 1, field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+
+
+intex_org_users_page:
+    path: /users/page/{page}/{field}/{order}
+    defaults: { _controller: GrtResourceBundle:User:listUsers, _locale: %locale%, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+        page: \d+
+
+intex_org_companies:
+    path: /companies/{page}/{field}/{order}
+    defaults: { _controller: GrtResourceBundle:Company:listCompanies, _locale: %locale%, page: 1,field: name, order: ASC  }
+    requirements:
+        methods:  GET
+
+intex_org_companies_page:
+    path: /companies/page/{page}/{field}/{order}
+    defaults: { _controller: GrtResourceBundle:Company:listCompanies, _locale: %locale%, page: 1, field: name, order: ASC }
+    requirements:
+        methods:  GET
+        page: \d+
+
+intex_org_company_show:
+    path: /company/{companyId}
+    defaults: { _controller: GrtResourceBundle:Company:showCompany, _locale: %locale% }
+    requirements:
+        methods:  GET
+        companyId: \d+
+
+intex_org_company_users:
+    path: /users-company/{companyId}/{page}/{field}/{order}
+    defaults: { _controller: GrtResourceBundle:User:listOrgUsers, _locale: %locale%, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+        companyId: \d+
+
+intex_org_user_new:
+    path: /new-user-in-comp/{companyId}
+    defaults: { _controller: GrtResourceBundle:User:newUser, _locale: %locale% }
+    requirements:
+        methods:  GET
+        companyId: \d+
+
+intex_org_user_create:
+    path: /create-user/{companyId}
+    defaults: { _controller: GrtResourceBundle:User:createUser, _locale: %locale% }
+    requirements:
+        methods:  POST
+        companyId: \d+
+
+intex_org_user_upload:
+    path: /upload/
+    defaults: { _controller: GrtResourceBundle:User:uploadXml, _locale: %locale% }
+
+
+intex_org_user_load:
+    path: /load/
+    defaults: { _controller: GrtResourceBundle:User:loadUsers, _locale: %locale% }
+    requirements:
+        methods:  POST
