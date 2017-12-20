@@ -2,6 +2,8 @@
 
 namespace Grt\ResourceBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="departments")
@@ -9,10 +11,29 @@ namespace Grt\ResourceBundle\Entity;
  */
 class Department
 {
+    /**
+     * Id department
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
+     */
     protected $id;
 
+    /**
+     * Name department
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string",length=100)
+     * @var string
+     */
     protected $name;
 
+    /**
+     * Enable or disable location
+     * @Assert\NotBlank()
+     * @ORM\Column(type="boolean")
+     * @var boolean
+     */
     protected $active;
 
     /**
@@ -25,6 +46,8 @@ class Department
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->active = true;
+
     }
 
 

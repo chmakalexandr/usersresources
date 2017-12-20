@@ -18,10 +18,11 @@ class UserType extends AbstractType
         $builder->add('lastname',TextType::class, array('label' => 'Last Name','attr'=> array('class'=>'form-control')));
         $builder->add('firstname',TextType::class, array('label' => 'First Name','attr'=> array('class'=>'form-control')));
         $builder->add('middlename',TextType::class, array('label' => 'Middle Name','attr'=> array('class'=>'form-control')));
+        $builder->add('domainname',TextType::class, array('label' => 'Middle Name','attr'=> array('class'=>'form-control')));
+
         $builder->add('bithday', DateType::class, array('label' => 'Bithday(YYYY-MM-DD)',
             'widget' => 'single_text','format' => 'yyyy-mm-dd','attr'=> array('class'=>'input-group date form-control')));
-        $builder->add('inn',TextType::class, array('label' => 'ITN (12 digits)','attr'=> array('class'=>'form-control')));
-        $builder->add('snils', TextType::class, array('label' => 'INILA (11 digits)','attr'=> array('class'=>'form-control')));
+
     }
 
     /**

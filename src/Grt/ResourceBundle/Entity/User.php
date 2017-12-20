@@ -47,61 +47,29 @@ class User
      */
     protected $middlename;
 
+    /**
+     * Domain Name user
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string",length=100)
+     * @var string
+     */
+    protected $domainname;
 
     /**
-     * User's company
+     * User's department
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(name="department_id", referencedColumnName="id")
      * @var \Grt\ResourceBundle\Entity\Department
      */
     protected $department;
 
-
     /**
-     * User's company
+     * User's location
      * @ORM\ManyToOne(targetEntity="Location", inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
      * @var \Grt\ResourceBundle\Entity\Location
      */
     protected $location;
-
-    /**
-     * @return Department
-     */
-    public function getDepartment()
-    {
-        return $this->department;
-    }
-
-    /**
-     * @param Department $department
-     */
-    public function setDepartment($department)
-    {
-        $this->department = $department;
-    }
-
-
-    /**
-     * Users collection
-     * @ORM\OneToMany(targetEntity="Resource", mappedBy="user", cascade={"all"})
-     * @var ArrayCollection
-     */
-    protected $resources;
-
-    public function __construct()
-    {
-        $this->resources = new ArrayCollection();
-    }
-
-    /**
-     * @param User $user
-     */
-    public function addResource(Resource $resource)
-    {
-        $this->resources[] = $resource;
-    }
-
 
     /**
      * @return mixed
@@ -170,50 +138,80 @@ class User
     /**
      * @return mixed
      */
-    public function getBithday()
+    public function getDomainname()
     {
-        return $this->bithday;
+        return $this->domainname;
     }
 
     /**
-     * @param \DateTime $bithday
+     * @param mixed $domainname
      */
-    public function setBithday($bithday)
+    public function setDomainname($domainname)
     {
-        $this->bithday = $bithday;
+        $this->domainname = $domainname;
     }
 
     /**
-     * @return mixed
+     * @return Location
      */
-    public function getInn()
+    public function getLocation()
     {
-        return $this->inn;
+        return $this->location;
     }
 
     /**
-     * @param int $inn
+     * @param Location $location
      */
-    public function setInn($inn)
+    public function setLocation($location)
     {
-        $this->inn = $inn;
+        $this->location = $location;
     }
 
     /**
-     * @return mixed
+     * @return Department
      */
-    public function getSnils()
+    public function getDepartment()
     {
-        return $this->snils;
+        return $this->department;
     }
 
     /**
-     * @param int $snils
+     * @param Department $department
      */
-    public function setSnils($snils)
+    public function setDepartment($department)
     {
-        $this->snils = $snils;
+        $this->department = $department;
     }
+
+
+    /**
+     * Users collection
+     * @ORM\OneToMany(targetEntity="Resource", mappedBy="user", cascade={"all"})
+     * @var ArrayCollection
+     */
+    protected $resources;
+
+    public function __construct()
+    {
+        $this->resources = new ArrayCollection();
+    }
+
+    public function getResources()
+    {
+        return $this->resources;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function addResource(Resource $resource)
+    {
+        $this->resources[] = $resource;
+    }
+
+
+
+
 
 
     public function removeResource(\Grt\ResourceBundle\Entity\Resource $resource)

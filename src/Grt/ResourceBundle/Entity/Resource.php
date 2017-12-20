@@ -2,6 +2,8 @@
 
 namespace Grt\ResourceBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="resources")
@@ -32,13 +34,6 @@ class Resource
      * @var string
      */
     protected $login;
-
-    /**
-     * Initial password
-     * @ORM\Column(name="initial_password",type="string",length=100)
-     * @var string
-     */
-    protected $password;
 
     /**
      * Annotation
@@ -119,22 +114,6 @@ class Resource
     public function setLogin($login)
     {
         $this->login = $login;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
     }
 
     /**
