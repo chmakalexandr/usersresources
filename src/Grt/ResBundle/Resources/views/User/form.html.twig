@@ -1,0 +1,36 @@
+{% extends 'GrtResBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/form_style.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/form.js') }}"></script>
+{% endblock %}
+
+{% block namepage %}
+    <h3>
+        Добавить пользователя
+    </h3>
+{% endblock %}
+
+{% block body %}
+    {% if userId %}
+        {{ form_start(form, { 'action': path('grt_create_user',{ 'userId': userId}), 'method': 'POST', 'attr': {'class': 'userform'} }) }}
+    {% else %}
+        {{ form_start(form, { 'action': path('grt_create_user'), 'method': 'POST', 'attr': {'class': 'userform'} }) }}
+    {% endif %}
+    {{ form_widget(form) }}
+    <p>
+        <input type="submit" value="{% trans %}Submit{% endtrans %}" class="btn btn-default">
+    </p>
+
+    {% for error_message in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endfor %}
+
+{% endblock %}

@@ -16,15 +16,3 @@
 /vendor/
 /web/bundles/
 /node_modules/
-/.idea/
-/bin/
-/tests/
-/var/
-/web/
-phpunit.xml.dist
-yarn.lock
-yarn-error.log
-/assets/fonts/*
-/assets/dist/fonts/*
-assets/dist/bootstrap/*
-assets/images/*

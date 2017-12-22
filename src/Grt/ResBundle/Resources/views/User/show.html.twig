@@ -1,0 +1,36 @@
+{% extends 'GrtResBundle::layout.html.twig' %}
+
+{% block namepage %}
+    <h3>
+        {% trans %} User information {% endtrans %}
+    </h3>
+{% endblock %}
+
+{% block body %}
+
+    <div class="show_user">
+        <table class="table">
+            <tr>
+                <td class="name-col">{% trans %}Last Name{% endtrans %}</td>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <td class="name-col">{% trans %}First Name{% endtrans %}</td>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <td class="name-col">{% trans %}Middle Name{% endtrans %}</td>
+                <td>{{ user.middlename }}</td>
+            </tr>
+            <tr>
+                <td class="name-col">{% trans %}Department{% endtrans %}</td>
+                <td>{{ user.department}}</td>
+            </tr>
+            <tr>
+                <td class="name-col">{% trans %}PTO{% endtrans %}</td>
+                <td>{{ user.location}}</td>
+            </tr>
+         </table>
+    </div>
+
+{% endblock %}

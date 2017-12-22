@@ -1,0 +1,38 @@
+{% extends 'GrtResBundle::layout.html.twig' %}
+
+{% block namepage %}
+    <h3>
+        {% trans %} List of all users {% endtrans %}
+    </h3>
+{% endblock %}
+
+{% block body %}
+
+    {% if locations %}
+        <table class="table table-striped table-hover">
+            {% block table_header %}
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Название расположения</th>
+                </tr>
+            </thead>
+            {% endblock %}
+            {% block table_body %}
+            <tbody>
+            {% for location in locations %}
+                <tr>
+                    <td scope="row">{{ loop.index }}</td>
+                    <td>{{ location.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            {% endblock %}
+        </table>
+    {% else %}
+        <p>{% trans %}There are no users{% endtrans %}</p>
+    {% endif %}
+
+
+
+{% endblock %}

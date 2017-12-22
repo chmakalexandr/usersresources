@@ -1,0 +1,127 @@
+grt_homepage:
+    path: /
+    defaults: { _controller: GrtResBundle:Page:index }
+    requirements:
+        methods:  GET
+
+grt_user_show:
+    path: /user/{userId}
+    defaults: { _controller: GrtResBundle:User:showUser}
+    requirements:
+        methods:  GET
+        userId:   \d+
+
+grt_show_users:
+    path: /users/
+    defaults: { _controller: GrtResBundle:User:listUsers }
+    requirements:
+        methods:  GET
+
+grt_users:
+    path: /users/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:User:listUsers, page: 1, field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+
+grt_users_page:
+    path: /users/page/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:User:listUsers, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+
+grt_edit_user:
+    path: /edit-user/{userId}
+    defaults: { _controller: GrtResBundle:User:editUsers }
+    requirements:
+        methods:  GET
+
+
+grt_companies:
+    path: /companies/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:Company:listCompanies, page: 1,field: name, order: ASC  }
+    requirements:
+        methods:  GET
+
+grt_companies_page:
+    path: /companies/page/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:Company:listCompanies, page: 1, field: name, order: ASC }
+    requirements:
+        methods:  GET
+        page: \d+
+
+grt_company_show:
+    path: /company/{companyId}
+    defaults: { _controller: GrtResBundle:Company:showCompany }
+    requirements:
+        methods:  GET
+        companyId: \d+
+
+grt_resources_users:
+    path: /users-company/{companyId}/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:User:listOrgUsers, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+        companyId: \d+
+
+grt_new_user:
+    path: /new-user/
+    defaults: { _controller: GrtResBundle:User:newUser }
+    requirements:
+        methods:  GET
+
+grt_new_location:
+    path: /new-location/
+    defaults: { _controller: GrtResBundle:Location:addLocation }
+    requirements:
+        methods:  GET
+
+grt_create_location:
+    path: /create-location/
+    defaults: { _controller: GrtResBundle:Location:createLocation }
+    requirements:
+        methods:  POST
+        companyId: \d+
+
+grt_locations:
+    path: /locations/
+    defaults: { _controller: GrtResBundle:Location:index }
+    requirements:
+        methods:  GET
+
+grt_departments:
+    path: /departments/
+    defaults: { _controller: GrtResBundle:Department:index }
+    requirements:
+        methods:  GET
+
+grt_create_department:
+    path: /create-department/
+    defaults: { _controller: GrtResBundle:Department:createDepartment }
+    requirements:
+        methods:  POST
+        companyId: \d+
+
+grt_new_department:
+    path: /new-department/
+    defaults: { _controller: GrtResBundle:Department:addDepartment }
+    requirements:
+        methods:  GET
+
+
+grt_create_user:
+    path: /create-user/
+    defaults: { _controller: GrtResBundle:User:createUser }
+    requirements:
+        methods:  POST
+
+
+grt_user_upload:
+    path: /upload/
+    defaults: { _controller: GrtResBundle:User:uploadXml }
+
+
+grt_user_load:
+    path: /load/
+    defaults: { _controller: GrtResBundle:User:loadUsers }
+    requirements:
+        methods:  POST

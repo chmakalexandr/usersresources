@@ -1,0 +1,33 @@
+{% extends 'GrtResBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/form_style.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/form.js') }}"></script>
+{% endblock %}
+
+{% block namepage %}
+    <h3>
+       Добавить отдел
+    </h3>
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, { 'action': path('grt_create_department'), 'method': 'POST', 'attr': {'class': 'departmentform'} }) }}
+    {{ form_widget(form) }}
+    <p>
+        <input type="submit" value="{% trans %}Submit{% endtrans %}" class="btn btn-default">
+    </p>
+
+    {% for error_message in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endfor %}
+
+{% endblock %}

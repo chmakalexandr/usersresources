@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="{{ path('grt_show_users') }}">Показать пользователей</a></li>
+            <li><a href="{{ path('grt_new_user') }}">Добавить пользователей</a></li>
+            <li><a href="{{ path('grt_locations') }}">Показать ПТО</a></li>
+            <li><a href="{{ path('grt_new_location') }}">Добавить ПТО</a></li>
+            <li><a href="{{ path('grt_departments') }}">Показать отделы</a></li>
+            <li><a href="{{ path('grt_new_department') }}">Добавить отдел</a></li>
+
+        </ul>
+    </aside>
+{% endblock %}

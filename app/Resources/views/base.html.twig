@@ -12,14 +12,9 @@
     <body>
         <section id="wrapper">
             <header id="header">
-                <div class="language">
-                    {% block languages %}
-                        <span><a href="{{ path('intex_org_homepage', {'_locale': 'ru' }) }}">RU</a></span>&nbsp|
-                        <span><a href="{{ path('intex_org_homepage', {'_locale': 'en' }) }}">EN</a></span>
-                    {% endblock %}
-                </div>
+
                 <hgroup>
-                    <h2>{% block site_title %}<a href="{{ path('intex_org_homepage') }}">{% trans %}Users & Organizations {% endtrans %}</a>{% endblock %}</h2>
+                    <h2>{% block site_title %}<a href="{{ path('grt_homepage') }}">{% trans %}Users & Organizations {% endtrans %}</a>{% endblock %}</h2>
                 </hgroup>
             </header>
 
