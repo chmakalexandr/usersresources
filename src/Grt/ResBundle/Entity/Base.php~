@@ -7,11 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="locations")
- * @ORM\HasLifecycleCallbacks
+ *
+ * @ORM\Entity(repositoryClass="Grt\ResBundle\Entity\Repository\BaseRepository")
+ * @ORM\Table(name="bases")
  */
-class Location
+class Base
 {
     /**
      * Id location
@@ -31,6 +31,15 @@ class Location
     protected $name;
 
     /**
+     * Fields base's
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $fields;
+
+
+    /**
      * Enable or disable location
      * @Assert\NotBlank()
      * @ORM\Column(type="boolean")
@@ -40,23 +49,23 @@ class Location
 
     /**
      * Users collection
-     * @ORM\OneToMany(targetEntity="User", mappedBy="location", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Grt\ResBundle\Entity\Resource", mappedBy="base", cascade={"all"})
      * @var ArrayCollection
      */
-    protected $users;
+    protected $resources;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->resources = new ArrayCollection();
         $this->active = true;
     }
 
     /**
      * @param User $user
      */
-    public function addUser(User $user)
+    public function addResource(Resource $resource)
     {
-        $this->users[] = $user;
+        $this->resources[] = $resource;
     }
     /**
      * @return int
@@ -111,10 +120,27 @@ class Location
     /**
      * @return ArrayCollection
      */
-    public function getUsers()
+    public function getResources()
     {
-        return $this->users;
+        return $this->resources;
     }
+
+    /**
+     * @return string
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param string $fields
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+    }
+
 
     function __toString()
     {
@@ -132,12 +158,12 @@ class Location
     }
 
     /**
-     * Remove user
+     * Remove resource
      *
-     * @param \Grt\ResBundle\Entity\User $user
+     * @param \Grt\ResBundle\Entity\Resource $resource
      */
-    public function removeUser(\Grt\ResBundle\Entity\User $user)
+    public function removeResource(\Grt\ResBundle\Entity\Resource $resource)
     {
-        $this->users->removeElement($user);
+        $this->resources->removeElement($resource);
     }
 }

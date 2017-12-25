@@ -5,10 +5,11 @@ namespace Grt\ResBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Grt\ResBundle\Entity\User;
+use Grt\ResBundle\Entity\Base;
 use Grt\ResBundle\Form\UserType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Exception;
-
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 /**
  * Class UserController
  * @package Intex\OrgBundle\Controller
@@ -73,8 +74,19 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find user.');
         }
 
+        //$bases = $em->getRepository('GrtResBundle:Base')->findAll();
+
+        $form = $this->createFormBuilder()
+            ->add('base', EntityType::class, array(
+                'class'      => 'Grt\ResBundle\Entity\Base',
+                'data_class' => 'Grt\ResBundle\Entity\Base',
+                'expanded'   => true,
+                'choice_label' => 'name'
+             ))->getForm();
+
         return $this->render('GrtResBundle:User:show.html.twig', array(
             'user' => $user,
+            'form' => $form
         ));
     }
 
@@ -125,7 +137,7 @@ class UserController extends Controller
     /**
      * Add user in DB
      * @param Request $request
-     * @param int $companyId organization's Id
+     * @param int $userId organization's Id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function createUserAction(Request $request, $userId = null)
@@ -138,13 +150,11 @@ class UserController extends Controller
             $user = new User();
         }
 
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
-            //$em->persist($user);
-            $em->refresh($user);
+            $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', $this->get('translator')->trans('User was be added!'));

@@ -12,25 +12,20 @@
 
 {% block namepage %}
     <h3>
-        Добавить пользователя
+        Добавить Базу
     </h3>
 {% endblock %}
 
 {% block body %}
-    {% if userId is defined %}
-        {{ form_start(form, { 'action': path('grt_update_user',{ 'userId': userId}), 'method': 'POST', 'attr': {'class': 'userform'} }) }}
+    {% if baseId is defined %}
+        {{ form_start(form, { 'action': path('grt_update_base',{ 'baseId': baseId}), 'method': 'POST', 'attr': {'class': 'baseform'} }) }}
     {% else %}
-        {{ form_start(form, { 'action': path('grt_create_user'), 'method': 'POST', 'attr': {'class': 'userform'} }) }}
+        {{ form_start(form, { 'action': path('grt_create_base'), 'method': 'POST', 'attr': {'class': 'baseform'} }) }}
     {% endif %}
     {{ form_widget(form) }}
     <p>
         <input type="submit" value="{% trans %}Submit{% endtrans %}" class="btn btn-default">
     </p>
 
-    {% for error_message in app.session.flashBag.get('error') %}
-        <div class="alert alert-danger" role="alert">
-            {{ error_message }}
-        </div>
-    {% endfor %}
 
 {% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'GrtResBundle::layout.html.twig' %}
+
+{% block namepage %}
+    <h3>
+        {% trans %} Base information {% endtrans %}
+    </h3>
+{% endblock %}
+
+{% block body %}
+
+    <div class="show_user">
+        <table class="table">
+            <tr>
+                <td class="name-col">{% trans %}Name{% endtrans %}</td>
+                <td>{{ base.name }}</td>
+            </tr>
+            <tr>
+                <td class="name-col">{% trans %}Fields{% endtrans %}</td>
+                <td>{{ base.fields }}</td>
+            </tr>
+
+         </table>
+    </div>
+
+{% endblock %}

@@ -23,6 +23,51 @@ grt_users:
     requirements:
         methods:  GET
 
+grt_bases:
+    path: /bases/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:Base:listBases, page: 1, field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+
+grt_list_bases:
+    path: /bases/
+    defaults: { _controller: GrtResBundle:Base:listBases }
+    requirements:
+        methods:  GET
+
+grt_show_base:
+    path: /base/{baseId}
+    defaults: { _controller: GrtResBundle:Base:showBase}
+    requirements:
+        methods:  GET
+        userId:   \d+
+
+grt_edit_base:
+    path: /edit-base/{baseId}
+    defaults: { _controller: GrtResBundle:Base:editBase }
+    requirements:
+        methods:  GET
+
+grt_create_base:
+    path: /new-base/
+    defaults: { _controller: GrtResBundle:Base:createBase }
+    requirements:
+        methods:  GET
+
+grt_new_base:
+    path: /new-base/
+    defaults: { _controller: GrtResBundle:Base:newBase }
+    requirements:
+        methods:  GET
+
+grt_update_base:
+    path: /update-base/{baseId}
+    defaults: { _controller: GrtResBundle:Base:createBase}
+    requirements:
+        methods:  POST
+        userId: \d+
+
+
 grt_users_page:
     path: /users/page/{page}/{field}/{order}
     defaults: { _controller: GrtResBundle:User:listUsers, page: 1,field: firstname, order: ASC }
@@ -34,6 +79,7 @@ grt_edit_user:
     defaults: { _controller: GrtResBundle:User:editUsers }
     requirements:
         methods:  GET
+
 
 
 grt_companies:
@@ -108,9 +154,16 @@ grt_new_department:
         methods:  GET
 
 
+grt_update_user:
+    path: /update_user/{userId}
+    defaults: { _controller: GrtResBundle:User:createUser}
+    requirements:
+        methods:  POST
+        userId: \d+
+
 grt_create_user:
     path: /create-user/
-    defaults: { _controller: GrtResBundle:User:createUser }
+    defaults: { _controller: GrtResBundle:User:createUser}
     requirements:
         methods:  POST
 

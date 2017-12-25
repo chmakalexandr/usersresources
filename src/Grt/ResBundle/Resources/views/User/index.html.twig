@@ -44,9 +44,28 @@
                             </a>
                         </span>
                     </th>
-                    <th>Отдел</th>
-                    <th>ПТО</th>
-                    <th>{% trans %}Action{% endtrans %}</th>
+                    <th>Отдел
+                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'department', 'order': 'ASC'}) }}">
+                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'department', 'order': 'DESC'}) }}">
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                    </th>
+                    <th>
+                        ПТО
+                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'location', 'order': 'ASC'}) }}">
+                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'location', 'order': 'DESC'}) }}">
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                    </th>
+                    <th colspan="2">{% trans %}Action{% endtrans %}</th>
                 </tr>
             </thead>
             {% endblock %}

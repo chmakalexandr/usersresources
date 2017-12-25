@@ -26,7 +26,7 @@ class UserType extends AbstractType
             'required' => true,
 
         ));
-        $builder->add('department', EntityType::class, array('label' => 'ПТО',
+        $builder->add('department', EntityType::class, array('label' => 'Отдел',
             'class' => 'Grt\ResBundle\Entity\Department',
             'placeholder' => 'Выбирите отдел',
             'required' => true,
