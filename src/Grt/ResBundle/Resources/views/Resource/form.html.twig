@@ -18,7 +18,7 @@
 
 {% block body %}
 
-    {{ form_start(form, { 'action': path('grt_create_resource'), 'method': 'POST', 'attr': {'class': 'locationform'} }) }}
+    {{ form_start(form, { 'action': path('grt_create_resource', { 'userId': userId, 'baseId': baseId}), 'method': 'POST', 'attr': {'class': 'locationform'} }) }}
     {{ form_widget(form) }}
     <p>
         <input type="submit" value="{% trans %}Submit{% endtrans %}" class="btn btn-default">

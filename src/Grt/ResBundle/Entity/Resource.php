@@ -108,7 +108,7 @@ class Resource
     }
 
     /**
-     * @param User $base
+     * @param Base $base
      */
     public function setBase($base)
     {
@@ -218,5 +218,25 @@ class Resource
         $this->user = $user;
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt()
+    {
+        $this->updated = new \DateTime();
+    }
+
 
 }

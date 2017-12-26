@@ -110,13 +110,6 @@ grt_create_resource:
         userId: \d+
         baseId: \d+
 
-grt_resources_users:
-    path: /users-company/{companyId}/{page}/{field}/{order}
-    defaults: { _controller: GrtResBundle:User:listOrgUsers, page: 1,field: firstname, order: ASC }
-    requirements:
-        methods:  GET
-        companyId: \d+
-
 grt_new_user:
     path: /new-user/
     defaults: { _controller: GrtResBundle:User:newUser }

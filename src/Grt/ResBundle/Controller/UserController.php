@@ -4,11 +4,12 @@ namespace Grt\ResBundle\Controller;
 
 use Grt\ResBundle\Entity\Resource;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\HttpFoundation\Request;
 use Grt\ResBundle\Entity\User;
 use Grt\ResBundle\Entity\Base;
 use Grt\ResBundle\Form\UserType;
-use Grt\ResBundle\Form\BaseType;
+use Grt\ResBundle\Form\ResourceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Exception;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -213,7 +214,6 @@ class UserController extends Controller
     {
 
         $form = $request->get("form");
-        $baseId = $form['base'];
         $base = $this->getBaseById(intval($form['base']));
         $formRes = $this->createFormBuilder();
 
@@ -224,13 +224,35 @@ class UserController extends Controller
 
 
         return $this->render('GrtResBundle:Resource:form.html.twig', array(
-            'form' => $formRes->getForm()->createView()
+            'form' => $formRes->getForm()->createView(),
+            'userId' => $userId,
+            'baseId' => intval($form['base'])
         ));
     }
 
-    public function createUserResourceAction(Request $request, $userId)
+    public function createUserResourceAction(Request $request, $userId, $baseId)
     {
+        $user = $this->getUserById($userId);
+        $base = $this->getBaseById($baseId);
 
+        $resource = new Resource();
+
+        $form = $this->createForm(ResourceType::class, $resource);
+        $form->handleRequest($request);
+
+        $em = $this->getDoctrine()->getManager();
+
+
+            $resource->setUser($user);
+            $resource->setBase($base);
+            $em->persist($resource);
+            $em->flush();
+
+            $this->addFlash('success', $this->get('translator')->trans('User was be added!'));
+            return $this->redirect($this->generateUrl('grt_users'));
+
+
+        return $this->redirect($this->generateUrl('grt_bases'));
     }
 
 
@@ -253,12 +275,12 @@ class UserController extends Controller
     /**
      * Shows the company in which the user belongs
      * @param int $companyId Id organization's
-     * @return \Grt\ResBundle\Entity\Company|null|object
+     * @return \Grt\ResBundle\Entity\User|null|object
      */
     protected function getUserById($userId)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('User')->find($userId);
+        $user = $em->getRepository('Grt\ResBundle\Entity\User')->find($userId);
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find company.');
@@ -271,7 +293,7 @@ class UserController extends Controller
     /**
      * Shows the company in which the user belongs
      * @param int $companyId Id organization's
-     * @return \Grt\ResBundle\Entity\Company|null|object
+     * @return \Grt\ResBundle\Entity\Base|null|object
      */
     protected function getBaseById($baseId)
     {
@@ -283,50 +305,6 @@ class UserController extends Controller
         }
 
         return $base;
-    }
-
-
-    /**
-     * Return company from array $companies in which the Primary State Registration Number = $ogrn
-     * @param int $ogrn Primary State Registration Number organization's
-     * @param array $companies array organizations
-     * @return \Grt\ResBundle\Entity\Company|null|object
-     */
-    protected function getCompanyByOgrn($ogrn, $companies)
-    {
-        foreach ($companies as $company) {
-            if ($company->getOgrn() == $ogrn) {
-                return $company;
-            }
-        }
-
-        return null;
-    }
-
-    protected function getNewOrganizationWithUsers($organization, $existingCompanies, $existingOgrns)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $organization->getUsers();
-        $newUsers = $em->getRepository('Intex\OrgBundle\Entity\User')->getNewUsers($users);
-
-        $ogrn = $organization->getOgrn();
-        if (in_array($ogrn, $existingOgrns)) {
-            $organization = $this->getCompanyByOgrn($ogrn, $existingCompanies);
-        }
-
-        if (!empty($newUsers)) {
-            foreach ($newUsers as $user) {
-                $user->setCompany($organization);
-                $organization->addUser($user);
-            }
-
-            if (!in_array($organization->getOgrn(), $existingOgrns)) {
-                return $organization;
-            }
-        }
-
-        return null;
     }
 
 
