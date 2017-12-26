@@ -34,10 +34,10 @@
     </div>
 
 
-        {{ form_start(form, { 'action': path('grt_create_user'), 'method': 'POST', 'attr': {'class': 'baseform'} }) }}
+        {{ form_start(form, { 'action': path('grt_add_resource_to_user',{ 'userId': user.id}), 'method': 'POST', 'attr': {'class': 'baseform'} }) }}
         {{ form_widget(form) }}
     <p>
-        <input type="submit" value="{% trans %}Submit{% endtrans %}" class="btn btn-default">
+        <input type="submit" value="Добавить доступ" class="btn btn-default">
     </p>
 
 {% endblock %}

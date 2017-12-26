@@ -2,14 +2,17 @@
 
 namespace Grt\ResBundle\Controller;
 
+use Grt\ResBundle\Entity\Resource;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Grt\ResBundle\Entity\User;
 use Grt\ResBundle\Entity\Base;
 use Grt\ResBundle\Form\UserType;
+use Grt\ResBundle\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Exception;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 /**
  * Class UserController
  * @package Intex\OrgBundle\Controller
@@ -79,10 +82,9 @@ class UserController extends Controller
         $form = $this->createFormBuilder()
             ->add('base', EntityType::class, array(
                 'class'      => 'Grt\ResBundle\Entity\Base',
-                'data_class' => 'Grt\ResBundle\Entity\Base',
-                'expanded'   => true,
                 'choice_label' => 'name'
-             ))->getForm();
+
+             ))->getForm()->createView();
 
         return $this->render('GrtResBundle:User:show.html.twig', array(
             'user' => $user,
@@ -200,6 +202,38 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('grt_user_upload'));
     }
 
+
+    /**
+     * Add resource to user
+     * @param Request $request
+     * @param int $userId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function addResourceUserAction(Request $request, $userId)
+    {
+
+        $form = $request->get("form");
+        $baseId = $form['base'];
+        $base = $this->getBaseById(intval($form['base']));
+        $formRes = $this->createFormBuilder();
+
+            $fields = explode(",", $base->getFields());
+            foreach ($fields as $field){
+                $formRes->add($field,TextType::class, array('label' => $field,'attr'=> array('class'=>'form-control')));
+            }
+
+
+        return $this->render('GrtResBundle:Resource:form.html.twig', array(
+            'form' => $formRes->getForm()->createView()
+        ));
+    }
+
+    public function createUserResourceAction(Request $request, $userId)
+    {
+
+    }
+
+
     /**
      * Renders form for upload users from XML file
      * @return \Symfony\Component\HttpFoundation\Response
@@ -221,17 +255,36 @@ class UserController extends Controller
      * @param int $companyId Id organization's
      * @return \Grt\ResBundle\Entity\Company|null|object
      */
-    protected function getCompany($companyId)
+    protected function getUserById($userId)
     {
         $em = $this->getDoctrine()->getManager();
-        $company = $em->getRepository('GrtResBundle:Company')->find($companyId);
+        $user = $em->getRepository('User')->find($userId);
 
-        if (!$company) {
+        if (!$user) {
             throw $this->createNotFoundException('Unable to find company.');
         }
 
-        return $company;
+        return $user;
     }
+
+
+    /**
+     * Shows the company in which the user belongs
+     * @param int $companyId Id organization's
+     * @return \Grt\ResBundle\Entity\Company|null|object
+     */
+    protected function getBaseById($baseId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $base = $em->getRepository('Grt\ResBundle\Entity\Base')->find($baseId);
+
+        if (!$base) {
+            throw $this->createNotFoundException('Unable to find company.');
+        }
+
+        return $base;
+    }
+
 
     /**
      * Return company from array $companies in which the Primary State Registration Number = $ogrn

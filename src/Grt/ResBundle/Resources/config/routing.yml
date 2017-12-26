@@ -95,12 +95,20 @@ grt_companies_page:
         methods:  GET
         page: \d+
 
-grt_company_show:
-    path: /company/{companyId}
-    defaults: { _controller: GrtResBundle:Company:showCompany }
+grt_add_resource_to_user:
+    path: /add-res-user/{userId}
+    defaults: { _controller: GrtResBundle:User:addResourceUser }
     requirements:
-        methods:  GET
-        companyId: \d+
+        methods:  POST
+        userId: \d+
+
+grt_create_resource:
+    path: /create-res/{userId}/{baseId}
+    defaults: { _controller: GrtResBundle:User:createUserResource }
+    requirements:
+        methods:  POST
+        userId: \d+
+        baseId: \d+
 
 grt_resources_users:
     path: /users-company/{companyId}/{page}/{field}/{order}
