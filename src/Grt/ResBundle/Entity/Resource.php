@@ -2,11 +2,15 @@
 
 namespace Grt\ResBundle\Entity;
 
+use Doctrine\DBAL\Types\DateType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
- * @ORM\Entity
+ *
+ *
+ * @ORM\Entity(repositoryClass="Grt\ResBundle\Entity\Repository\ResourceRepository")
  * @ORM\Table(name="resources")
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Resource
@@ -44,7 +48,7 @@ class Resource
 
     /**
      * Term working
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date",options={"default":"2100-01-01"})
      * @var \DateTime
      */
     protected $term;
@@ -122,6 +126,13 @@ class Resource
      * @var \Grt\ResBundle\Entity\User
      */
     protected $user;
+
+    public function __construct()
+    {
+        $this->ip = '';
+        $this->login = '';
+        $this->annotation ='';
+    }
 
     /**
      * @return mixed
@@ -238,5 +249,14 @@ class Resource
         $this->updated = new \DateTime();
     }
 
+    function __set($property,$value) {
+        if (property_exists($this, $property)) {
+            if ($property == 'term'){
+                $this->term = new \DateTime($value);
+            } else {
+                $this->$property = $value;
+            }
+        }
+    }
 
 }

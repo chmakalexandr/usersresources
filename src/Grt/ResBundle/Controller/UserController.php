@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Exception;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 /**
  * Class UserController
  * @package Intex\OrgBundle\Controller
@@ -79,7 +80,7 @@ class UserController extends Controller
         }
 
         //$bases = $em->getRepository('GrtResBundle:Base')->findAll();
-
+        $resources = $user->getResources();
         $form = $this->createFormBuilder()
             ->add('base', EntityType::class, array(
                 'class'      => 'Grt\ResBundle\Entity\Base',
@@ -89,6 +90,7 @@ class UserController extends Controller
 
         return $this->render('GrtResBundle:User:show.html.twig', array(
             'user' => $user,
+            'resources' => $resources,
             'form' => $form
         ));
     }
@@ -213,43 +215,69 @@ class UserController extends Controller
     public function addResourceUserAction(Request $request, $userId)
     {
 
+        $em = $this->getDoctrine()->getManager();
         $form = $request->get("form");
         $base = $this->getBaseById(intval($form['base']));
-        $formRes = $this->createFormBuilder();
+        $resource = new Resource();
+        $baseId = strval($form['base']);
 
-            $fields = explode(",", $base->getFields());
+        if ($em->getRepository('GrtResBundle:Resource')->getFindUserBase($baseId,$userId)){
+            $this->addFlash('success', $this->get('translator')->trans('Base already exist!'));
+            return $this->redirect($this->generateUrl('grt_user_show',array('userId' => $userId)));
+        }
+
+        //$form = $this->createForm(ResourceType::class, $resource);
+        $formRes = $this->createFormBuilder($resource);
+
+        $fields = explode(",", $base->getFields());
             foreach ($fields as $field){
-                $formRes->add($field,TextType::class, array('label' => $field,'attr'=> array('class'=>'form-control')));
+                if ($field == 'term'){
+                    $formRes->add('term', DateType::class, array('label' => 'Срок действия(YYYY-MM-DD)',
+                        'widget' => 'single_text','format' => 'yyyy-mm-dd','attr'=> array('class'=>'input-group date form-control')));
+                } else {
+                    $formRes->add($field,TextType::class, array('label' => $field,'attr'=> array('class'=>'form-control')));
+                }
             }
 
 
         return $this->render('GrtResBundle:Resource:form.html.twig', array(
             'form' => $formRes->getForm()->createView(),
             'userId' => $userId,
-            'baseId' => intval($form['base'])
+            'baseId' => $baseId,
+
         ));
     }
 
     public function createUserResourceAction(Request $request, $userId, $baseId)
     {
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUserById($userId);
         $base = $this->getBaseById($baseId);
 
+
+        if ((!$user)||(!$base)) {
+            throw $this->createNotFoundException('Unable to find user or base.');
+        }
+
+
+
+        $fields = explode(",", $base->getFields());
+        $form = $request->get("form");
         $resource = new Resource();
-
-        $form = $this->createForm(ResourceType::class, $resource);
+        /*$form = $this->createForm(ResourceType::class, $resource);
         $form->handleRequest($request);
+        */
+        foreach ($fields as $field){
+            $resource->$field = $form[$field];
+        }
 
-        $em = $this->getDoctrine()->getManager();
+        $resource->setUser($user);
+        $resource->setBase($base);
+        $em->persist($resource);
+        $em->flush();
 
-
-            $resource->setUser($user);
-            $resource->setBase($base);
-            $em->persist($resource);
-            $em->flush();
-
-            $this->addFlash('success', $this->get('translator')->trans('User was be added!'));
-            return $this->redirect($this->generateUrl('grt_users'));
+        $this->addFlash('success', $this->get('translator')->trans('User was be added!'));
+        return $this->redirect($this->generateUrl('grt_users'));
 
 
         return $this->redirect($this->generateUrl('grt_bases'));
@@ -311,7 +339,6 @@ class UserController extends Controller
     private function sortArrayByKey(&$array,$key,$order){
        usort($array,function ($a, $b) use(&$key,&$order)
             {
-
                 if($order == 'ASC') {
                     return (strtolower($a->{$key}) < strtolower($b->{$key})) ? -1 : 1;
                 } else {

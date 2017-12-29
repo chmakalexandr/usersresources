@@ -30,11 +30,28 @@
                 <td class="name-col">{% trans %}PTO{% endtrans %}</td>
                 <td>{{ user.location}}</td>
             </tr>
-         </table>
+        </table>
     </div>
 
+    {% if resources %}
+        <div class="show_resources">
+            <table class="table">
+                {% for resource in resources %}
+                    <tr>
+                        <td>
+                            {{ resource.base.name }}
+                        </td>
+                        <td>
+                            {{ resource.login }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 
-        {{ form_start(form, { 'action': path('grt_add_resource_to_user',{ 'userId': user.id}), 'method': 'POST', 'attr': {'class': 'baseform'} }) }}
+
+    {{ form_start(form, { 'action': path('grt_add_resource_to_user',{ 'userId': user.id}), 'method': 'POST', 'attr': {'class': 'baseform'} }) }}
         {{ form_widget(form) }}
     <p>
         <input type="submit" value="Добавить доступ" class="btn btn-default">
