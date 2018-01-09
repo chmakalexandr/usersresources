@@ -14,6 +14,8 @@ Encore
     .addEntry('form', './assets/js/form.js')
     /*JS for check uploaded XML-file*/
     .addEntry('check', './assets/js/check-file-size.js')
+    /* Dropdown menu*/
+    .addEntry('menu', './assets/dist/bootstrap/js/popper.min.js')
     /* main style css */
     .addStyleEntry('styles', './assets/app.scss')
     /*bootstrap calendar css*/

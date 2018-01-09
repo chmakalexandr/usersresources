@@ -14,6 +14,7 @@ use Grt\ResBundle\Form\LocationType;
  */
 class LocationController extends Controller
 {
+    const LIMIT_PER_PAGE = 5;
     /**
      * Render main page
      * @return \Symfony\Component\HttpFoundation\Response
@@ -58,6 +59,43 @@ class LocationController extends Controller
         return $this->render('GrtResBundle:Location:form.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    public function showUsersAction($locationId, $page = 1,$field = 'firstname', $order = 'ASC')
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+        $location = $em->getRepository('GrtResBundle:Location')->find($locationId);
+        if (!$location) {
+            throw $this->createNotFoundException('Unable to find base.');
+        }
+
+        $users = $location->getUsers();
+
+        $usersSort = $users->toArray();
+        $this->sortArrayByKey($usersSort, $field, $order);
+
+        $maxPages = ceil($users->count() / self::LIMIT_PER_PAGE);
+        $thisPage = $page;
+
+        return $this->render('GrtResBundle:User:index.html.twig', array(
+            'users' =>   $usersSort,
+            'maxPages' => $maxPages,
+            'thisPage' => $thisPage
+        ));
+    }
+
+    private function sortArrayByKey(&$array,$key,$order){
+        usort($array,function ($a, $b) use(&$key,&$order)
+        {
+            if($order == 'ASC') {
+                return (strtolower($a->{$key}) < strtolower($b->{$key})) ? -1 : 1;
+            } else {
+                return (strtolower($a->{$key}) > strtolower($b->{$key})) ? -1 : 1;
+            }
+            if(strcmp(strtolower($a->{$key}), strtolower($b->{$key}))){ return 0;}
+        });
+
     }
 
 

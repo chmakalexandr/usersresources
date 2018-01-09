@@ -17,8 +17,12 @@
 {% endblock %}
 
 {% block body %}
+    {% if resourceId is defined %}
+        {{ form_start(form, { 'action': path('grt_create_resource', { 'userId': userId, 'baseId': baseId, 'resourceId': resourceId}), 'method': 'POST', 'attr': {'class': 'resourceform'} }) }}
+    {% else %}
+        {{ form_start(form, { 'action': path('grt_create_resource', { 'userId': userId, 'baseId': baseId}), 'method': 'POST', 'attr': {'class': 'resourceform'} }) }}
+    {% endif %}
 
-    {{ form_start(form, { 'action': path('grt_create_resource', { 'userId': userId, 'baseId': baseId}), 'method': 'POST', 'attr': {'class': 'resourceform'} }) }}
     {{ form_widget(form) }}
     <p>
         <input type="submit" value="{% trans %}Submit{% endtrans %}" class="btn btn-default">

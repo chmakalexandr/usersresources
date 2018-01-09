@@ -222,7 +222,7 @@ class UserController extends Controller
         $baseId = strval($form['base']);
 
         if ($em->getRepository('GrtResBundle:Resource')->getFindUserBase($baseId,$userId)){
-            $this->addFlash('success', $this->get('translator')->trans('Base already exist!'));
+            $this->addFlash('warning', $this->get('translator')->trans('Base already exist!'));
             return $this->redirect($this->generateUrl('grt_user_show',array('userId' => $userId)));
         }
 
@@ -248,39 +248,49 @@ class UserController extends Controller
         ));
     }
 
-    public function createUserResourceAction(Request $request, $userId, $baseId)
+
+
+    public function createUserResourceAction(Request $request, $userId, $baseId, $resourceId)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->getUserById($userId);
-        $base = $this->getBaseById($baseId);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getUserById($userId);
+            $base = $this->getBaseById($baseId);
+            if ($resourceId) {
+                $resource = $em->getRepository('GrtResBundle:Resource')->find($resourceId);
+            } else {
+                $resource = new Resource();
+                $resource->setUser($user);
+                $resource->setBase($base);
+            }
 
 
-        if ((!$user)||(!$base)) {
-            throw $this->createNotFoundException('Unable to find user or base.');
+            if ((!$user) || (!$base)) {
+                throw $this->createNotFoundException('Unable to find user or base.');
+            }
+
+
+            $fields = explode(",", $base->getFields());
+            $form = $request->get("form");
+
+            /*$form = $this->createForm(ResourceType::class, $resource);
+            $form->handleRequest($request);
+            */
+            foreach ($fields as $field) {
+                $resource->$field = $form[$field];
+            }
+
+            $em->persist($resource);
+
+            $em->flush();
+
+            $this->addFlash('success', $this->get('translator')->trans('User was be added!'));
+            return $this->redirect($this->generateUrl('grt_user_show',array('userId' => $userId)));
+        } catch (Exception $e){
+            return $this->redirect($this->generateUrl('grt_users'));
         }
 
 
-
-        $fields = explode(",", $base->getFields());
-        $form = $request->get("form");
-        $resource = new Resource();
-        /*$form = $this->createForm(ResourceType::class, $resource);
-        $form->handleRequest($request);
-        */
-        foreach ($fields as $field){
-            $resource->$field = $form[$field];
-        }
-
-        $resource->setUser($user);
-        $resource->setBase($base);
-        $em->persist($resource);
-        $em->flush();
-
-        $this->addFlash('success', $this->get('translator')->trans('User was be added!'));
-        return $this->redirect($this->generateUrl('grt_users'));
-
-
-        return $this->redirect($this->generateUrl('grt_bases'));
     }
 
 
@@ -311,7 +321,7 @@ class UserController extends Controller
         $user = $em->getRepository('Grt\ResBundle\Entity\User')->find($userId);
 
         if (!$user) {
-            throw $this->createNotFoundException('Unable to find company.');
+            throw $this->createNotFoundException('Unable to find user.');
         }
 
         return $user;
@@ -329,7 +339,7 @@ class UserController extends Controller
         $base = $em->getRepository('Grt\ResBundle\Entity\Base')->find($baseId);
 
         if (!$base) {
-            throw $this->createNotFoundException('Unable to find company.');
+            throw $this->createNotFoundException('Unable to find base.');
         }
 
         return $base;

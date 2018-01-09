@@ -15,6 +15,7 @@
                 <tr>
                     <th>#</th>
                     <th>Название расположения</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             {% endblock %}
@@ -24,6 +25,11 @@
                 <tr>
                     <td scope="row">{{ loop.index }}</td>
                     <td>{{ location.name }}</td>
+                    <td>
+                        <a href="{{ path('grt_show_users_location', { 'locationId': location.id }) }}" title="{% trans %}Show users in this location{% endtrans %}">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -32,7 +38,5 @@
     {% else %}
         <p>{% trans %}There are no users{% endtrans %}</p>
     {% endif %}
-
-
 
 {% endblock %}

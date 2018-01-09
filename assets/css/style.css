@@ -21,8 +21,8 @@ body { line-height: 1;font-family: Arial, sans-serif;font-size: 12px; width: 100
 #header h2 a { color: #FFFFFF; }
 #header h3 { text-align: center; font-family: 'La Belle Aurore', cursive; font-size: 32px; margin-bottom: 20px; font-weight: normal; color: #000000; }
 h3{font-size: 24px;}
-.main-col { width: 75%; display: inline-block; float: right; padding: 20px; margin-bottom: 20px; border-right: 1px solid #ccc}
-.sidebar { width: 25%; ; display: inline-block;}
+.main-col { width: 80%; display: inline-block; float: right; padding: 20px; margin-bottom: 20px; border-left: 1px solid #ccc}
+.sidebar { width: 20%; ; display: inline-block;}
 
 .main-col a { color: #1a6ab3; }
 .main-col h1,
@@ -69,7 +69,7 @@ h3{font-size: 24px;}
     background-color:#d2dbe4 !important;
 }
 .name-col{
-    background-color: #fcf6da;
+    background-color: #eaf3fa;
 }
 
 .sidebar {
@@ -172,4 +172,32 @@ a.thumbnail{
     color: #fff !important;
     background-color: #1a6ab3 !important;
     border-color: #1a6ab3 !important;
+}
+
+.btn{
+    width: 100%;
+    text-align: left !important;
+}
+
+.btn-group{
+    width: 100%;
+}
+
+.dropdown-menu-right {
+    left: 100% !important;
+    right: 0;
+}
+
+.dropdown-menu{
+    min-width: 200px !important;
+    top: 0 !important;
+}
+
+.dropdown {
+    border-bottom: 1px solid #ccc;
+}
+
+.btn span{
+    position: absolute;
+    right: 10px;
 }

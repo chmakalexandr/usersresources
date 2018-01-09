@@ -2,15 +2,45 @@
 
 {% block sidebar %}
     <aside class="sidebar">
-        <ul class="nav nav-pills nav-stacked">
-            <li><a href="{{ path('grt_show_users') }}">Показать пользователей</a></li>
-            <li><a href="{{ path('grt_new_user') }}">Добавить пользователей</a></li>
-            <li><a href="{{ path('grt_locations') }}">Показать ПТО</a></li>
-            <li><a href="{{ path('grt_new_location') }}">Добавить ПТО</a></li>
-            <li><a href="{{ path('grt_departments') }}">Показать отделы</a></li>
-            <li><a href="{{ path('grt_new_department') }}">Добавить отдел</a></li>
-            <li><a href="{{ path('grt_list_bases') }}">Показать базы</a></li>
-            <li><a href="{{ path('grt_new_base') }}">Добавить базу</a></li>
-        </ul>
+        <div class="btn-group">
+            <div class="dropdown">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Пользователи<span><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{ path('grt_show_users') }}">Показать пользователей</a></li>
+                    <li><a href="{{ path('grt_new_user') }}">Добавить пользователей</a></li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ПТО<span><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{ path('grt_locations') }}">Показать ПТО</a></li>
+                    <li><a href="{{ path('grt_new_location') }}">Добавить ПТО</a></li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Отделы<span><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{ path('grt_departments') }}">Показать отделы</a></li>
+                    <li><a href="{{ path('grt_new_department') }}">Добавить отдел</a></li>
+
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Базы<span><i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{ path('grt_list_bases') }}">Показать базы</a></li>
+                    <li><a href="{{ path('grt_new_base') }}">Добавить базу</a></li>
+                </ul>
+            </div>
+        </div>
     </aside>
 {% endblock %}

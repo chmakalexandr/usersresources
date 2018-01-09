@@ -120,6 +120,57 @@ class BaseController extends Controller
             'form' => $form->createView(),
             'baseId' => $baseId
         ));
+    }
+
+    public function showUsersAction($baseId, $page = 1,$field = 'firstname', $order = 'ASC')
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+        $base = $em->getRepository('GrtResBundle:Base')->find($baseId);
+        if (!$base) {
+            throw $this->createNotFoundException('Unable to find base.');
+        }
+
+        $resources = $base->getResources();
+
+        $users = array();
+
+        /*$res = $resources->toArray();
+        foreach ($resources as $resource){
+            $users[] = $resource->getUser();
+        }
+        */
+
+        $this->sortArrayByKey($users, $field, $order);
+
+        $res =  $em->getRepository('GrtResBundle:Resource')->getUserResourceByBase($baseId, $field, $order, $page,self::LIMIT_PER_PAGE);
+
+        /*foreach ($users as $user){
+               $ress = $user->getResources();
+        }
+        */
+
+        $maxPages = ceil(count($res) / self::LIMIT_PER_PAGE);
+        $thisPage = $page;
+
+        return $this->render('GrtResBundle:Base:users.html.twig', array(
+            'resources' => $res,
+            'base' => $base,
+            'maxPages' => $maxPages,
+            'thisPage' => $thisPage
+        ));
+    }
+
+    private function sortArrayByKey(&$array,$key,$order){
+        usort($array,function ($a, $b) use(&$key,&$order)
+        {
+            if($order == 'ASC') {
+                return (strtolower($a->{$key}) < strtolower($b->{$key})) ? -1 : 1;
+            } else {
+                return (strtolower($a->{$key}) > strtolower($b->{$key})) ? -1 : 1;
+            }
+            if(strcmp(strtolower($a->{$key}), strtolower($b->{$key}))){ return 0;}
+        });
 
     }
 }

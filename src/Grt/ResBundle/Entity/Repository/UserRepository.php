@@ -14,90 +14,52 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
     private $fieldSorting = array('firstname','lastname','middlename');
-    /**
-     * Return users from array $users that not exist in DB
-     * @param ArrayCollection $users
-     * @return array
-     */
-    public function getNewUsers(ArrayCollection $users)
-    {
-        $usersInns = $this->getInn($users);
-
-        $db = $this->createQueryBuilder('u')
-            ->select('u')
-            ->where('u.inn IN (:inns)')
-            ->setParameter('inns', $usersInns);
-
-        $existingUsers = $db->getQuery()->getResult();
-
-        return $this->getArrayDiffUsers($users, $existingUsers);
-    }
+    private $fieldlocationSorting = array('location');
+    private $fieldDepartmentSorting = array('department');
 
 
     public function getAllUsers($field = 'firstname',$order = 'ASC',$currentPage = 1, $limit = 5)
     {
-        // Create our query
+
+        $db = null;
+
         if (in_array($field, $this->fieldSorting)) {
             $field = 'u.' . $field;
 
-            $query = $this->createQueryBuilder('u')
+            $db = $this->createQueryBuilder('u')
                 ->orderBy($field, $order)
                 ->getQuery();
+        }
 
-            // No need to manually get get the result ($query->getResult())
+        if (in_array($field, $this->fieldlocationSorting)) {
+                $field = 'loc.name';
+                $db = $this->createQueryBuilder('u')
+                    ->select('u')
+                    ->innerJoin('GrtResBundle:Location', 'loc', 'WITH', 'u.location = loc.id')
+                    ->orderBy($field, $order)
+                    ->getQuery();
+        }
 
-            $paginator = new Paginator($query);
+        if (in_array($field, $this->fieldDepartmentSorting)) {
+                $field = 'dep.name';
+                $db = $this->createQueryBuilder('u')
+                    ->select('u')
+                    ->innerJoin('GrtResBundle:Department', 'dep', 'WITH', 'u.department = dep.id ')
+                    ->orderBy($field, $order)
+                    ->getQuery();
+        }
+
+        if ($db) {
+            $paginator = new Paginator($db);
 
             $paginator->getQuery()
                 ->setFirstResult($limit * ($currentPage - 1))// Offset
                 ->setMaxResults($limit); // Limit
 
             return $paginator;
+        } else {
+            return null;
         }
-        return null;
     }
-
-    /**
-     * Return users from array $users which do not exist in array $existingUsers
-     * @param ArrayCollection $users
-     * @param ArrayCollection $existingUsers
-     * @return array
-     */
-    protected function getArrayDiffUsers(ArrayCollection $users, $existingUsers)
-    {
-        $usersInns = $this->getInn($users);
-        $existingInns = $this->getInn($existingUsers);
-
-        $newInns = array_diff($usersInns, $existingInns);
-
-        $newUsers = array();
-
-        if ($newInns) {
-            foreach ($users as $human) {
-                if (in_array($human->getInn(), $newInns)){
-                    $newUsers[] = $human;
-                }
-            }
-        }
-
-        return $newUsers;
-    }
-
-    /**
-     * Return INN(Insurance Number of Individual Ledger Account user's) users from array $users
-     * @param ArrayCollection $users
-     * @return array
-     */
-    protected function getInn($users)
-    {
-        $usersInns = array();
-
-        foreach ($users as $human){
-            $usersInns[] = $human->getInn();
-        }
-
-        return $usersInns;
-    }
-
 
 }

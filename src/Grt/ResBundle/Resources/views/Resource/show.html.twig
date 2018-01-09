@@ -1,0 +1,43 @@
+{% extends 'GrtResBundle::layout.html.twig' %}
+
+{% block namepage %}
+    <h3>
+        {% trans %} Resource {% endtrans %}
+        {{ resource.base.name }}
+        {% trans %} user {% endtrans %}
+        <a href="{{ path('grt_user_show', { 'userId': user.id }) }}" title="{% trans %}user{% endtrans %}">
+            {{ user.firstname }}&nbsp {{ user.middlename }}&nbsp{{ user.lastname }}
+        </a>
+    </h3>
+{% endblock %}
+
+{% block body %}
+    <div class="show_user">
+        <table class="table">
+            <tr>
+                <td class="name-col">{% trans %}Login{% endtrans %}</td>
+                <td>{{ resource.login }}</td>
+            </tr>
+            {% if resource.ip %}
+                <tr>
+                    <td class="name-col">{% trans %}IP address{% endtrans %}</td>
+                    <td>{{ resource.ip }}</td>
+                </tr>
+            {% endif %}
+            {% if resource.term %}
+                <tr>
+                    <td class="name-col">{% trans %}Term{% endtrans %}</td>
+                    <td>{{ resource.term|date('d-m-Y')}}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td class="name-col">{% trans %}Updated{% endtrans %}</td>
+                <td>{{ resource.updated|date('d-m-Y\\ H:i:s')}}</td>
+            </tr>
+            <tr>
+                <td class="name-col">{% trans %}Created{% endtrans %}</td>
+                <td>{{ resource.created|date('d-m-Y\\ H:i:s')}}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

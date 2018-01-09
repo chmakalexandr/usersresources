@@ -67,7 +67,7 @@ class Resource
      * Base this resource
      * @ORM\ManyToOne(targetEntity="Base", inversedBy="resources", cascade={"persist"})
      * @ORM\JoinColumn(name="base_id", referencedColumnName="id")
-     * @var \Grt\ResBundle\Entity\User
+     * @var \Grt\ResBundle\Entity\Base
      */
     protected $base;
 
@@ -247,6 +247,14 @@ class Resource
     public function setUpdatedAt()
     {
         $this->updated = new \DateTime();
+    }
+
+
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
     }
 
     function __set($property,$value) {

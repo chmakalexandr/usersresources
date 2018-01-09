@@ -33,4 +33,16 @@
         </div>
     {% endfor %}
 
+    {% for error_message in app.session.flashBag.get('warning') %}
+        <div class="alert alert-warning">
+            {{ error_message }}
+        </div>
+    {% endfor %}
+
+    {% for success_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ success_message }}
+        </div>
+    {% endfor %}
+
 {% endblock %}

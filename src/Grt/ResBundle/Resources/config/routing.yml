@@ -60,13 +60,33 @@ grt_new_base:
     requirements:
         methods:  GET
 
+grt_show_users_base:
+    path: /users-base/{baseId}/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:Base:showUsers, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+        baseId: \d+
+
+grt_show_users_location:
+    path: /users-location/{locationId}/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:Location:showUsers, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+        locationId: \d+
+
+grt_show_users_department:
+    path: /users-department/{departmentId}/{page}/{field}/{order}
+    defaults: { _controller: GrtResBundle:Department:showUsers, page: 1,field: firstname, order: ASC }
+    requirements:
+        methods:  GET
+        departmentId: \d+
+
 grt_update_base:
     path: /update-base/{baseId}
     defaults: { _controller: GrtResBundle:Base:createBase}
     requirements:
         methods:  POST
         userId: \d+
-
 
 grt_users_page:
     path: /users/page/{page}/{field}/{order}
@@ -103,12 +123,13 @@ grt_add_resource_to_user:
         userId: \d+
 
 grt_create_resource:
-    path: /create-res/{userId}/{baseId}
-    defaults: { _controller: GrtResBundle:User:createUserResource }
+    path: /create-res/{userId}/{baseId}/{resourceId}
+    defaults: { _controller: GrtResBundle:User:createUserResource, resourceId: null }
     requirements:
         methods:  POST
         userId: \d+
         baseId: \d+
+        resourceId: \d+
 
 grt_new_user:
     path: /new-user/
@@ -169,13 +190,19 @@ grt_create_user:
         methods:  POST
 
 
-grt_user_upload:
-    path: /upload/
-    defaults: { _controller: GrtResBundle:User:uploadXml }
+grt_delete_resource:
+    path: /del-res/{userId}/{resourceId}
+    defaults: { _controller: GrtResBundle:Resource:deleteResource }
 
 
-grt_user_load:
-    path: /load/
-    defaults: { _controller: GrtResBundle:User:loadUsers }
+grt_show_resource:
+    path: /show-resource/{userId}/{resourceId}
+    defaults: { _controller: GrtResBundle:Resource:showResource }
     requirements:
-        methods:  POST
+        methods:  GET
+
+grt_edit_resource:
+    path: /edit-resource/{userId}/{resourceId}
+    defaults: { _controller: GrtResBundle:Resource:editResource }
+    requirements:
+        methods:  GET

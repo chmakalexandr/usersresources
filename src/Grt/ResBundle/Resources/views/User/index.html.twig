@@ -15,54 +15,124 @@
                 <tr>
                     <th>#</th>
                     <th>{% trans %}Last Name{% endtrans %}
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'lastname', 'order': 'ASC'}) }}">
-                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                            </a>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                                <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'lastname', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'lastname', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'lastname', 'order': 'DESC'}) }}">
-                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'),'page': 1, 'field': 'lastname', 'order': 'DESC'}) }}">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'lastname', 'order': 'DESC'}) }}">
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
                     </th>
                     <th>{% trans %}First Name{% endtrans %}
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'firstname', 'order': 'ASC'}) }}">
-                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                            </a>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                                <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'firstname', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'firstname', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'firstname', 'order': 'DESC'}) }}">
-                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                            </a>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                                <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'firstname', 'order': 'DESC'}) }}">
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'firstname', 'order': 'DESC'}) }}">
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
                     </th>
                     <th>{% trans %}Middle Name{% endtrans %}
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'middlename', 'order': 'ASC'}) }}">
-                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'middlename', 'order': 'ASC'}) }}">
+                                <i class="fa fa-chevron-up" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'middlename', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'middlename', 'order': 'DESC'}) }}">
-                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'middlename', 'order': 'DESC'}) }}">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'middlename', 'order': 'DESC'}) }}">
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
                     </th>
                     <th>Отдел
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'department', 'order': 'ASC'}) }}">
-                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'department', 'order': 'ASC'}) }}">
+                                <i class="fa fa-chevron-up" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'department', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'department', 'order': 'DESC'}) }}">
-                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'department', 'order': 'DESC'}) }}">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'department', 'order': 'DESC'}) }}">
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
                     </th>
                     <th>
                         ПТО
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'location', 'order': 'ASC'}) }}">
-                            <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'location', 'order': 'ASC'}) }}">
+                                <i class="fa fa-chevron-up" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'location', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
-                        <span><a href="{{ path('grt_users', { 'page': 1, 'field': 'location', 'order': 'DESC'}) }}">
-                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        <span>
+                            {% if app.request.get('departmentId') or app.request.get('locationId')  %}
+                            <a href="{{ path(app.request.attributes.get('_route'), {'departmentId': app.request.get('departmentId'),'locationId': app.request.get('locationId'), 'page': 1, 'field': 'location', 'order': 'DESC'}) }}">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </a>
+                            {% else %}
+                                <a href="{{ path('grt_users', { 'page': 1, 'field': 'location', 'order': 'ASC'}) }}">
+                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
                         </span>
                     </th>
                     <th colspan="2">{% trans %}Action{% endtrans %}</th>
@@ -71,26 +141,26 @@
             {% endblock %}
             {% block table_body %}
             <tbody>
-            {% for user in users %}
-                <tr>
-                    <td scope="row">{{ loop.index }}</td>
-                    <td>{{ user.lastname }}</td>
-                    <td>{{ user.firstname }}</td>
-                    <td>{{ user.middlename }}</td>
-                    <td>{{ user.department }}</td>
-                    <td>{{ user.location }}</td>
-                    <td>
-                        <a href="{{ path('grt_user_show', { 'userId': user.id }) }}" title="{% trans %}Show user info{% endtrans %}">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ path('grt_edit_user', { 'userId': user.id }) }}" title="{% trans %}Edit user{% endtrans %}">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
+                {% for user in users %}
+                    <tr>
+                        <td scope="row">{{ loop.index }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.middlename }}</td>
+                        <td>{{ user.department }}</td>
+                        <td>{{ user.location }}</td>
+                        <td>
+                            <a href="{{ path('grt_user_show', { 'userId': user.id }) }}" title="{% trans %}Show user info{% endtrans %}">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('grt_edit_user', { 'userId': user.id }) }}" title="{% trans %}Edit user{% endtrans %}">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
             {% endblock %}
         </table>

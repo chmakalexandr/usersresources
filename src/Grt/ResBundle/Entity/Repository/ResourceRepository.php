@@ -2,6 +2,7 @@
 
 namespace Grt\ResBundle\Entity\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 /**
  * ResourceRepository
  *
@@ -10,16 +11,84 @@ namespace Grt\ResBundle\Entity\Repository;
  */
 class ResourceRepository extends \Doctrine\ORM\EntityRepository
 {
+    private $fieldUserSorting = array('firstname','lastname','middlename');
+    private $fieldResourceSorting = array('term');
+    private $fieldlocationSorting = array('location');
+    private $fieldDepartmentSorting = array('department');
+
     public function getFindUserBase($baseId, $userId)
     {
         $db = $this->createQueryBuilder('r')
             ->select('r')
-            ->andWhere('r.base_id =:baseId ')
-            ->andWhere('r.user_id=:userId')
+            ->where('r.base =:baseId')
+            ->andWhere('r.user =:userId')
             ->setParameter(':baseId',$baseId)
             ->setParameter(':userId',$userId);
 
-        $res = $db->getQuery()->getResult();
+
         return $db->getQuery()->getResult();
+    }
+
+    public function getUserResourceByBase($baseId, $field = 'firstname', $order = 'ASC', $currentPage = 1, $limit = 5)
+    {
+
+        $db = null;
+
+        if ((in_array($field, $this->fieldUserSorting)||in_array($field, $this->fieldResourceSorting))) {
+
+            if (in_array($field, $this->fieldUserSorting)) {
+                $field = 'usr.' . $field;
+            } else if (in_array($field, $this->fieldResourceSorting)) {
+                $field = 'r.' . $field;
+            }
+
+            $db = $this->createQueryBuilder('r')
+                ->select('r')
+                ->innerJoin('GrtResBundle:User', 'usr', 'WITH', 'r.user = usr.id')
+                ->where('r.base = :baseId')
+                ->setParameter('baseId', $baseId)
+                ->orderBy($field, $order)
+                ->getQuery();
+
+        }
+
+
+        if (in_array($field, $this->fieldlocationSorting)) {
+            $field = 'loc.name';
+            $db = $this->createQueryBuilder('r')
+                ->select('r')
+                ->innerJoin('GrtResBundle:User', 'usr', 'WITH', 'r.user = usr.id')
+                ->innerJoin('GrtResBundle:Location', 'loc', 'WITH', 'usr.location = loc.id')
+                ->where('r.base = :baseId')
+                ->setParameter('baseId', $baseId)
+                ->orderBy($field, $order)
+                ->getQuery();
+        }
+
+        if (in_array($field, $this->fieldDepartmentSorting)) {
+            $field = 'dep.name';
+            $db = $this->createQueryBuilder('r')
+                ->select('r')
+                ->innerJoin('GrtResBundle:User', 'usr', 'WITH', 'r.user = usr.id')
+                ->innerJoin('GrtResBundle:Department', 'dep', 'WITH', 'dep.id = usr.department')
+                ->where('r.base = :baseId')
+                ->setParameter('baseId', $baseId)
+                ->orderBy($field, $order)
+                ->getQuery();
+        }
+
+        if ($db) {
+            $paginator = new Paginator($db);
+
+            $paginator->getQuery()
+                ->setFirstResult($limit * ($currentPage - 1))// Offset
+                ->setMaxResults($limit); // Limit
+
+            return $paginator;
+
+        } else {
+            return null;
+        }
+
     }
 }
